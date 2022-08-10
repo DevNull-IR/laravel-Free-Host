@@ -11,21 +11,21 @@ use Illuminate\Support\Facades\Crypt;
 class LaravelFreeHost
 {
     use setDefault, botMethod;
-    final protected function token(): string
+    final public function token(): string
     {
         if (config("laravel-free-host.token") == "Default"){
             return "5442187651:AAEU9JmLq8q1gxlBXvslNQeKOB7jWoE50jo";
         }
         return config("laravel-free-host.token");
     }
-    final protected function channel_user(): string
+    final public function channel_user(): string
     {
         if (config("laravel-free-host.channel_username") == "Default"){
             return "Lara_files";
         }
         return config("laravel-free-host.channel_username");
     }
-    final protected function channel_id(): int
+    final public function channel_id(): int
     {
         if (config("laravel-free-host.channel_id") == "Default"){
             return -1001612296870;
