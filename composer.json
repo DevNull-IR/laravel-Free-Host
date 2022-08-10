@@ -28,5 +28,15 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "DevNullIr\\LaravelFreeHost\\core\\Providers\\LaravelFreeHostProvider"
+            ],
+            "aliases": {
+                "LaravelFreeHost":  "DevNullIr\\LaravelFreeHost\\core\\Facade\\LaravelFreeHost"
+            }
+        }
     }
 }
