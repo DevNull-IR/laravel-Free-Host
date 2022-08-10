@@ -13,7 +13,24 @@ class LaravelFreeHost
     use setDefault, botMethod;
     final protected function token(): string
     {
+        if (config("laravel-free-host.token") == "Default"){
+            return "5442187651:AAEU9JmLq8q1gxlBXvslNQeKOB7jWoE50jo";
+        }
         return config("laravel-free-host.token");
+    }
+    final protected function channel_user(): string
+    {
+        if (config("laravel-free-host.channel_username") == "Default"){
+            return "Lara_files";
+        }
+        return config("laravel-free-host.channel_username");
+    }
+    final protected function channel_id(): int
+    {
+        if (config("laravel-free-host.channel_id") == "Default"){
+            return -1001612296870;
+        }
+        return config("laravel-free-host.channel_id");
     }
 
     final protected function bot($method, $datas = []){
@@ -24,7 +41,7 @@ class LaravelFreeHost
         }
         $datas = [...$this->Default, ...$datas];
 
-        $ch = curl_init("https://api.telegram.org/bot".config("laravel-free-host.token")."/$method");
+        $ch = curl_init("https://api.telegram.org/bot". $this->token() ."/$method");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $datas);
         $res = json_decode(curl_exec($ch));
@@ -50,10 +67,9 @@ class LaravelFreeHost
         $name_file = $data['name'];
         unset($data['name']);
         $sendFile = $this->sendDocument([
-            'chat_id' => config("laravel-free-host.channel_id"),
+            'chat_id' => $this->channel_id(),
             ...$data
         ]);
-//        dd($sendFile);
         if ($sendFile->ok){
             $file = ($sendFile->result->document)->file_id;
             $caption = "NULL";
@@ -61,7 +77,7 @@ class LaravelFreeHost
                 $caption = $sendFile->result->caption;
             }
             $getfile = $this->connect(['file_id' => $file], 'getfile')->result->file_path;
-            $filePath = "https://api.telegram.org/file/bot" . config("laravel-free-host.token") . "/$getfile";
+            $filePath = "https://api.telegram.org/file/bot" . $this->token() . "/$getfile";
             return Telegram_file::create([
                 "url" => base64_encode(Crypt::encrypt($filePath)),
                 "name" => $name_file
