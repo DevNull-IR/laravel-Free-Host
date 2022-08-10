@@ -18,8 +18,13 @@ trait botMethod
                         return $this->connect($data);
                     }
                     throw new FreeHostException("please enter int chat_id in array");
-                }
-                throw new FreeHostException("please enter chat_id in array");
+                }elseif(isset($this->Default['chat_id'])){
+                    if (is_numeric($this->Default['chat_id'])){
+                        return $this->connect($data);
+                    }
+                    throw new FreeHostException("please enter int chat_id in array");
+                } else
+                    throw new FreeHostException("please enter chat_id in array");
             }
             throw new FreeHostException("please enter string text in array");
         }
@@ -34,8 +39,15 @@ trait botMethod
                         return $this->connect($data, 'sendphoto');
                     }
                     throw new FreeHostException("please enter int chat_id in array");
+                }else{
+                    if (isset($this->Default['chat_id'])){
+                        if (is_numeric($this->Default['chat_id'])){
+                            return $this->connect($data, "sendphoto");
+                        }
+                        throw new FreeHostException("please enter int chat_id in array");
+                    }
                 }
-                throw new FreeHostException("please enter chat_id in array");
+                throw new FreeHostException("please enter chat_id in array Or set Defult");
             }
             throw new FreeHostException("please enter url in photo array");
         }
@@ -50,6 +62,8 @@ trait botMethod
                         return $this->connect($data, 'sendDocument');
                     }
                     throw new FreeHostException("please enter int chat_id in array");
+                }else{
+                    return $this->connect($data, 'sendDocument');
                 }
                 throw new FreeHostException("please enter chat_id in array");
             }
